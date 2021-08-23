@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Promise</h2>
+
+<p id="demo"></p>
+
+<script>  
+   function add_positivenos_async(n1, n2) {
+      let p = new Promise(function (resolve, reject) {
+         if (n1 >= 0 && n2 >= 0) {
+            //do some complex time consuming work
+            resolve(n1 + n2)
+         }
+         else
+            reject('NOT_Postive_Number_Passed') 
+         })
+         return p;
+   }
+
+   add_positivenos_async(10, 20)
+      .then(successHandler) // if promise resolved
+      .catch(errorHandler);// if promise rejected
+
+   /*add_positivenos_async(-10, -20)
+      .then(successHandler) // if promise resolved
+      .catch(errorHandler);// if promise rejected*/
+
+   function errorHandler(err) {
+      //console.log('Handling error', err)
+      document.getElementById("demo").innerHTML = err;
+
+   }
+   function successHandler(result) {
+      //console.log('Handling success', result)
+      document.getElementById("demo").innerHTML = result;
+
+   }
+
+   console.log('end')
+</script>
+
+</body>
+</html>

@@ -11,15 +11,15 @@ function myDisplayer(some) {
   document.getElementById("demo").innerHTML = some;
 }
 
-let myPromise = new Promise(function(myResolve, myReject) {
+let myPromise = new Promise(function(myResolve1, myReject1) {
   let x = 0;
 
-  x = 5;
+  //x = 5;
 
   if (x == 0) {
-    myResolve("OK");
+    myResolve1("OK");
   } else {
-    myReject("Error");
+    myReject1("Error");
   }
 });
 
