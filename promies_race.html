@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Promises Chaining</h2>
+
+<p id="demo"></p>
+<script>   
+    function add_positivenos_async(n1, n2) {
+       let p = new Promise(function (resolve, reject) {
+          if (n1 >= 0 && n2 >= 0) {
+             //do some complex time consuming work
+             resolve(n1 + n2)
+          } else
+             reject('NOT_Postive_Number_Passed')
+       })
+ 
+       return p;
+    }
+ 
+    //Promise.race(iterable)
+    Promise.race([add_positivenos_async(10,20),add_positivenos_async(30,40)])
+    .then(function(resolveValue){
+       console.log('one of them is done')
+       console.log(resolveValue)
+    }).catch(function(err){
+       console.log("Error",err)
+    })
+ 
+    console.log('end')
+ </script> 
+ </body>
+ </html>
+ 
