@@ -28,6 +28,7 @@ class StatefulComponent extends React.Component {  
       );  
    }  
 }  
+
 class StudentName extends React.Component {  
    render() {  
       return (  
