@@ -7,6 +7,7 @@ const path = require("path");
 const users = require("./routes/users");
 const trainings = require("./routes/training");
 const trainingAssignments = require("./routes/training_assignments");
+const auth = require("./routes/auth");
 
 const app = express();
 
@@ -30,6 +31,7 @@ mongoose.connect(db, {
 app.use("/api/users", users);
 app.use("/api/trainings", trainings);
 app.use("/api/trainngAssignments", trainingAssignments);
+app.use("/api/auth", auth);
 
 const port = 5010;
 

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-//const auth = require("../../middleware/auth");
+const auth = require("../middleware/auth");
 
 // Training Model
 const Training = require("../models/Training");
@@ -9,7 +9,7 @@ const Training = require("../models/Training");
 // Description: Get all Trainings
 // Access: Private
 
-router.get("/", (req, res) => {
+router.get("/", auth, (req, res) => {
   Training.find()
     .then((training) => res.json(training));
 });
@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
 // Description: Get a single training
 // Access: Private
 
-router.get("/:id", (req, res) => {
+router.get("/:id", auth, (req, res) => {
   Training.findById(req.params.id)
     .then((training) => res.json(training))
     .catch((err) => res.status(400).json("Error: " + err));
@@ -28,7 +28,7 @@ router.get("/:id", (req, res) => {
 // Description: Create a training
 // Access: Private
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
     const newTraining = new Training({
       name: req.body.name,
@@ -52,7 +52,7 @@ router.post("/", async (req, res) => {
 // Description: Update an existing training
 // Access: Private
 
-router.post("/update/:id", (req, res) => {
+router.post("/update/:id", auth, (req, res) => {
   Training.findById({_id: req.params.id })
     .then((training) => {
       training.name = req.body.name;
@@ -72,7 +72,7 @@ router.post("/update/:id", (req, res) => {
 // Description: Delete an existing training
 // Access: Private
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", auth, (req, res) => {
   Training.findById({_id: req.params.id })
     .then((training) => training.remove().then(() => res.json({ success: true })))
     .catch((err) => res.status(404).json({ success: false }));

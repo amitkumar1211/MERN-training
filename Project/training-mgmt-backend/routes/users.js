@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const config = require("config");
+const bcrypt = require("bcryptjs");
 
 const User = require("../models/User");
 
@@ -17,10 +18,13 @@ router.post("/", async (req, res) => {
         //check the passwordcheck is equal to password or not
         if(password !== passwordCheck)
             return res.status(400).json({msg: "Enter the same password twice"});
+
+        const salt = await bcrypt.genSalt();
+        const passwordHash = await bcrypt.hash(password, salt);
         
         const newUser = new User ({
             name,
-            password,
+            password: passwordHash,
             email,
             role,
         });

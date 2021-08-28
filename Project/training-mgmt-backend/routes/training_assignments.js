@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-//const auth = require("../../middleware/auth");
+const auth = require("../middleware/auth");
 
 // TrainingAssignment Model
 const TrainingAssignment = require("../models/TrainingAssignment");
@@ -28,11 +28,11 @@ router.get("/:id", (req, res) => {
 // Description: Create a trainingAssignment
 // Access: Private
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
     const newTrainingAssignment = new TrainingAssignment({
       userId: req.body.userId,
-      trainingId: req.body.trainignId,
+      trainingId: req.body.trainingId,
       completion: req.body.completion,
       dueDate: Date.parse(req.body.dueDate),
     });
@@ -52,7 +52,7 @@ router.post("/", async (req, res) => {
 // Description: Update an existing trainingAssignment
 // Access: Private
 
-router.put("/update/:id", (req, res) => {
+router.put("/update/:id", auth, (req, res) => {
   TrainingAssignment.findById({ _id: req.params.id })
     .then((trainingAssignment) => {
       trainingAssignment.userId = req.body.userId;
@@ -72,7 +72,7 @@ router.put("/update/:id", (req, res) => {
 // Description: Delete an existing trainingAssignment
 // Access: Private
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", auth, (req, res) => {
   TrainingAssignment.findById({_id: req.params.id })
     .then((trainingAssignment) => trainingAssignment.remove().then(() => res.json({ success: true })))
     .catch((err) => res.status(404).json({ success: false }));
