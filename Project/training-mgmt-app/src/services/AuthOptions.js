@@ -11,11 +11,13 @@ export default function AuthOptions() {
   const login = () => history.push("/login");
   const myTrainings = () => history.push("/trainings");
   const createTraining = () => history.push("/createtraining");
+  const assignTraining = () => history.push("/assigntraining");
 
   const logout = () => {
     setUserData({
       token: undefined,
       user: undefined,
+      userId: undefined,
       role: undefined,
     });
     localStorage.removeItem("auth-token");
@@ -23,16 +25,17 @@ export default function AuthOptions() {
   };
 
   return (
-    
     <Nav>
         { (userData.role === 'ADMIN' ) ?
-
         <>
         <NavItem className="auth-options">
-          <NavLink onClick={myTrainings}>My Tickets</NavLink>
+          <NavLink onClick={assignTraining}>Assign Trainings</NavLink>
         </NavItem>
         <NavItem className="auth-options">
-          <NavLink onClick={createTraining}>Create a Ticket</NavLink>
+          <NavLink onClick={myTrainings}>Trainings</NavLink>
+        </NavItem>
+        <NavItem className="auth-options">
+          <NavLink onClick={createTraining}>Create a Training</NavLink>
         </NavItem>
         <NavItem className="auth-options">
           <NavLink onClick={logout}>Logout</NavLink>
@@ -45,7 +48,7 @@ export default function AuthOptions() {
              
              <>
             <NavItem className="auth-options">
-            <NavLink onClick={myTrainings}>My Tickets</NavLink>
+            <NavLink onClick={myTrainings}>My Trainings</NavLink>
             </NavItem>
             <NavItem className="auth-options">
           <NavLink onClick={logout}>Logout</NavLink>
@@ -60,17 +63,9 @@ export default function AuthOptions() {
             <NavLink onClick={register}>Register</NavLink>
             </NavItem>
             </>
-
           }
           </>
-          
-         
-        
       }
-
-
-     
-      
     </Nav>
   );
 }

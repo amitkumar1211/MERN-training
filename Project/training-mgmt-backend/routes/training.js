@@ -5,11 +5,21 @@ const auth = require("../middleware/auth");
 // Training Model
 const Training = require("../models/Training");
 
+// TrainingAssignment Model
+const TrainingAssignment = require("../models/TrainingAssignment");
+
 // Route: GET api/training
 // Description: Get all Trainings
 // Access: Private
 
 router.get("/", auth, (req, res) => {
+// 	Training.aggregate([{ 
+//  $lookup: {
+//   from: 'TrainingAssignment',
+//   localField: 'trainingId',
+//   foreignField: 'trainingId',
+//   as: 'Customer'
+//  }}]);
   Training.find()
     .then((training) => res.json(training));
 });

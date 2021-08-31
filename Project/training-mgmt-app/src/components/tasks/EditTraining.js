@@ -21,7 +21,7 @@ export default class EditTraining extends Component {
   componentDidMount() {
     const token = localStorage.getItem("auth-token");
     http
-      .get("/api/trainings/" + this.props.match.params.id, {
+      .get("/trainings/" + this.props.match.params.id, {
         headers: { "x-auth-token": token },
       })
       .then((response) => {
@@ -64,17 +64,17 @@ export default class EditTraining extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const ticket = {
+    const training = {
       name: this.state.name,
       description: this.state.description,
       status: this.state.status,
       reference: this.state.reference,
     };
 
-    console.log(ticket);
+    console.log(training);
     const token = localStorage.getItem("auth-token");
     http
-      .post("/api/trainings/update/" + this.props.match.params.id, ticket, {
+      .post("/trainings/update/" + this.props.match.params.id, training, {
         headers: { "x-auth-token": token },
       })
       .then((res) => console.log(res.data));
@@ -85,7 +85,7 @@ export default class EditTraining extends Component {
   render() {
     return (
       <Form>
-        <h3>Edit Ticket</h3>
+        <h3>Edit Training</h3>
         <br />
         <FormGroup className="form-group">
           <Label for="subject">Training Name</Label>
@@ -124,7 +124,7 @@ export default class EditTraining extends Component {
             id="trainingDescription"
             value={this.state.description}
             onChange={this.onChangeDescription}
-            placeholder="Enter ticket description.."
+            placeholder="Enter training description.."
           />
         </FormGroup>
         <FormGroup className="form-group">

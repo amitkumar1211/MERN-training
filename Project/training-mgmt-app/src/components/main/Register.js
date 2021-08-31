@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import UserContext from '../../services/UserContext';
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
-import axios from "axios";
+import http from '../../services/http-common';
 
 export default function Register() {
   const [name, setName] = useState();
@@ -20,16 +20,18 @@ export default function Register() {
 
     try {
       const newUser = { name, email, password, passwordCheck, role };
-      await axios.post("/api/users", newUser);
+      await http.post("/users", newUser);
 
-      const loginRes = await axios.post("/api/auth", { email, password });
+      const loginRes = await http.post("/auth", { email, password });
 
       setUserData({
         token: loginRes.data.token,
         user: loginRes.data.user,
+        userId: loginRes.data.user.id,
         role: loginRes.data.user.role,
       });
       localStorage.setItem("auth-token", loginRes.data.token);
+      localStorage.setItem("userId", loginRes.data.user.id);
       history.push("/trainings");
     } catch (err) {
       err.response.data.msg && setError(err.response.data.msg);
@@ -83,11 +85,16 @@ export default function Register() {
       <FormGroup>
         <Label>User Type</Label>
         <Input
-          type="role"
-          name="role"
-          onChange={(e) => setRole(e.target.value)}
-          placeholder="Select Role.."
-        />
+            className="input"
+            type="select"
+            name="role"
+            id="registerRole"
+            onChange={(e) => setRole(e.target.value)}
+          >
+            <option>Select a Role</option>
+            <option>ADMIN</option>
+            <option>USER</option>
+          </Input>
       </FormGroup>
       <Button onClick={submit} className="button">
         Submit

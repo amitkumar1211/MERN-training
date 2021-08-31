@@ -5,14 +5,55 @@ const auth = require("../middleware/auth");
 // TrainingAssignment Model
 const TrainingAssignment = require("../models/TrainingAssignment");
 
+const Training = require("../models/Training");
+
 // Route: GET api/trainingAssignment
 // Description: Get all TrainingAssignments
 // Access: Private
 
-router.get("/", (req, res) => {
-  TrainingAssignment.find()
-    .then((trainingAssignment) => res.json(trainingAssignment));
+router.get("/:userId", (req, res) => {
+	var filteredTraining = {
+    id: '',
+    name: '',
+    description: '',
+    status: '',
+    reference: '',
+    version: '',
+  };
+
+  let filteredTrainings = [];
+  try{
+     filteredTrainings = TrainingAssignment.find({userId: req.params.userId})
+      .then((trainingAssignment) => {
+        trainingAssignment.forEach( x => 
+          Training.findById(x.trainingId)
+          .then((training) => {
+            // filteredTraining.id = training._id;
+            // filteredTraining.description = training.description;
+            // filteredTraining.name = training.name;
+            // filteredTraining.status = training.status;
+            // filteredTraining.reference = training.reference;
+            // filteredTraining.version = training._v;
+            return training;
+            // console.log(filteredTrainings);
+            //res.json(training)
+            
+            })
+        
+        )
+      }
+    )
+
+  } catch(e) {
+    
+  }
+  console.log(filteredTrainings);
+  res.json(filteredTrainings);
+  
+	
+	
 });
+
 
 // Route: GET api/trainingAssignment
 // Description: Get a single trainingAssignment

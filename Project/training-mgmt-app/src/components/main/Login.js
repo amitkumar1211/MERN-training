@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import UserContext from '../../services/UserContext';
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
-import axios from "axios";
+import http from '../../services/http-common';
 
 export default function Login() {
   const [email, setEmail] = useState();
@@ -17,14 +17,16 @@ export default function Login() {
 
     try {
       const loginUser = { email, password };
-      const loginRes = await axios.post("/api/auth", loginUser);
+      const loginRes = await http.post("/auth", loginUser);
 
       setUserData({
         token: loginRes.data.token,
         user: loginRes.data.user,
+        userId: loginRes.data.user.id,
         role: loginRes.data.user.role,
       });
       localStorage.setItem("auth-token", loginRes.data.token);
+      localStorage.setItem("userId", loginRes.data.user.id);
       history.push("/trainings");
     } catch (err) {
       err.response.data.msg && setError(err.response.data.msg);

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
+//import axios from "axios";
 //import DatePicker from "react-datepicker";
 //import "react-datepicker/dist/react-datepicker.css";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
@@ -10,12 +10,10 @@ export default class AddTraining extends Component {
     super(props);
 
     this.state = {
-      subject: "",
-      category: "",
-      priority: "",
+      name: "",
       description: "",
       status: "",
-      date: new Date(),
+      reference: "",
     };
   }
 
@@ -46,18 +44,18 @@ export default class AddTraining extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const ticket = {
+    const training = {
         name: this.state.name,
         description: this.state.description,
         status: this.state.status,
         reference: this.state.reference,
     };
 
-    console.log(ticket);
+    console.log(training);
 
     const token = localStorage.getItem("auth-token");
     http
-      .post("/api/trainings/", ticket, { headers: { "x-auth-token": token } })
+      .post("/trainings/", training, { headers: { "x-auth-token": token } })
       .then((res) => console.log(res.data));
 
     window.location = "/trainings";
@@ -66,7 +64,7 @@ export default class AddTraining extends Component {
   render() {
     return (
       <Form>
-        <h3>Create a Ticket</h3>
+        <h3>Create a Training</h3>
         <br />
         <FormGroup className="form-group">
           <Label for="subject">Training Name</Label>
@@ -76,7 +74,7 @@ export default class AddTraining extends Component {
             name="name"
             id="trainingName"
             value={this.state.name}
-            onChange={this.onChangeSubject}
+            onChange={this.onChangeName}
             placeholder="Enter training name..."
           />
         </FormGroup>

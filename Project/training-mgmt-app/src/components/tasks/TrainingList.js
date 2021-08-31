@@ -1,16 +1,19 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Table } from "reactstrap";
 import { Link } from "react-router-dom";
 import http from '../../services/http-common';
+//import UserContext from "../../services/UserContext";
 
-const Training = (props) => (
+
+// const Training = (props) => (
+
   <tr>
-    <td>{props.trainings.name}</td>
-    <td>{props.trainings.description}</td>
-    <td>{props.trainings.status}</td>
-    <td>{props.trainings.references}</td>
+    <td>{props.training.name}</td>
+    <td>{props.training.description}</td>
+    <td>{props.training.status}</td>
+    <td>{props.training.reference}</td>
     <td>
-      <Link to={"/edit/" + props.ticket._id} style={{ color: "#20c997" }}>
+      <Link to={"/edit/" + props.training._id} style={{ color: "#20c997" }}>
         Edit
       </Link>{" "}
       |{" "}
@@ -23,64 +26,86 @@ const Training = (props) => (
         }}
         href="#"
         onClick={() => {
-          props.deleteTicket(props.ticket._id);
+          props.deleteTraining(props.training._id);
         }}
       >
         Delete
       </button>
     </td>
   </tr>
-);
+// );
 
-export default class TrainingList extends Component {
-  constructor(props) {
-    super(props);
+const TrainingsList = () => {
 
-    this.state = { trainings: [] };
+  const {trainings, setTrainings} = useState([]);
+  //const { userData } = useContext(UserContext);
+
+  
+  // constructor(props) {
+  //   super(props);
+
+  //   this.state = { trainings: [] };
+    
+  // }
+
+  const findTrainings = () => {
+    let token = localStorage.getItem("auth-token");
+    http.get("/trainings/", { headers: { "x-auth-token": token } })
+    .then(res => {
+      setTrainings(res.data);
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
 
-  componentDidMount() {
-    const token = localStorage.getItem("auth-token");
-    http
-      .get("/api/trainings/", { headers: { "x-auth-token": token } })
-      .then((res) => {
-        this.setState({ trainings: res.data });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  useEffect(() => {
+    console.log("use Effect called");
+    
+    findTrainings();
+  }, []);
 
-  deleteTicket = (id) => {
-    const token = localStorage.getItem("auth-token");
-    http
-      .delete("/api/trainings/" + id, { headers: { "x-auth-token": token } })
-      .then((res) => console.log(res.data));
+  // var deleteTraining = (id) => {
+  //   const token = localStorage.getItem("auth-token");
+  //   http
+  //     .delete("/trainings/" + id, { headers: { "x-auth-token": token } })
+  //     .then((res) => console.log(res.data));
 
-    this.setState({
-      trainings: this.state.trainings.filter((el) => el._id !== id),
-    });
-  };
+  //   this.setTrainings(
+  //     this.trainings.filter((el) => el._id !== id),
+  //   );
+  // };
 
-  ticketList = () => {
-    return this.state.trainings.map((currentTicket) => {
-      return (
-        <Training
-          ticket={currentTicket}
-          deleteTicket={this.deleteTicket}
-          key={currentTicket._id}
-        />
-      );
-    });
-  };
+  // var trainingDisplay = () => {
+  //   return trainings.map((currentTraining) => {
+  //     return (
+  //       <Training
+  //         training={currentTraining}
+  //         deleteTraining={this.deleteTraining}
+  //         key={currentTraining._id}
+  //       />
+  //     );
+  //   });
+  // };
 
-  clearInputs = () => {
-    this.setState({
-      trainings: [],
-    });
-  };
+  // var trainingDisplay = () => {
+  //   return trainings.map((currentTraining) => {
+  //     return (
+  //       // <Training
+  //       //   training={currentTraining}
+  //       //   deleteTraining={this.deleteTraining}
+  //       //   key={currentTraining._id}
+  //       // />
+  //       console.log(currentTraining)
+  //     );
+  //   });
+  // };
 
-  render() {
+  // var clearInputs = () => {
+  //   this.setTraining([]);
+  // };
+
     return (
       <Table striped className="table">
         <thead>
@@ -91,8 +116,29 @@ export default class TrainingList extends Component {
             <th>References</th>
           </tr>
         </thead>
-        <tbody>{this.ticketList()}</tbody>
+        {/* <tbody>{trainingDisplay()}</tbody> */}
+        <div className="col-md-6">
+        <h4>Tutorials List</h4>
+
+        <ul className="list-group">
+          {trainings &&
+            trainings.map((training, index) => (
+              <li
+              >
+                {training.name}
+              </li>
+            ))}
+        </ul>
+
+        {/* <button
+          className="m-3 btn btn-sm btn-danger"
+          onClick={removeAllTutorials}
+        >
+          Remove All
+        </button> */}
+      </div>
       </Table>
     );
   }
-}
+
+  export default TrainingsList;
