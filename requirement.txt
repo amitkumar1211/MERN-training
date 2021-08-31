@@ -1,0 +1,52 @@
+Training Management app:
+
+Front End:
+
+1.	Register
+2.	Login
+3.	Home
+3.	Create Training
+4.	Update Training
+5.	Assign Training with date
+6.	Update the completion
+
+Back End:
+User:
+	id:
+	name:
+	email:
+	password:
+	registration_date:
+	role:
+
+Training:
+	id:
+	name:
+	description:
+	status:
+	Reference:
+	
+Training_Assignment:
+	id:
+	user_id:
+	training_id:
+	completion:
+	due Date:
+	
+Routes:
+	user:
+		GET: /api/users/ -> get all users
+		POST: /api/users/ -> Add a users
+		PUT: /api/users/:id -> Modify users
+		GET: /api/users/:id -> get a user
+Routes:
+	training:
+		GET: /api/trainings/ -> get all trainings
+		POST: /api/trainings/ -> Add a trainings
+		PUT: /api/trainings/:id -> Modify trainings
+		GET: /api/trainings/:id -> get a training
+	Training_Assignment:
+		GET: /api/trainings-assignment/ -> get all training-assignments
+		POST: /api/trainings-assignment/ -> Add a trainings-assignment
+		PUT: /api/trainings-assignment/:id -> Modify training-assignments
+		GET: /api/trainings-assignment/:id -> get a training-assignment

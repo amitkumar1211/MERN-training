@@ -1,0 +1,11 @@
+
+{
+  "app": {
+    "port": "3000"
+  },
+  "db": {
+    "url": "mongodb://localhost:27017/task-manager-api"
+  },
+  "JWT_SECRET": "my_secret"
+}
+  
